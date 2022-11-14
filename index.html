@@ -20,8 +20,19 @@
 			<button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
 		</div>
 
+		<div class="calendar">
+			<h2>カレンダー</h2>
+			<div class="monthSelect">
+				<div><span id="year">year</span>年<span id="month">month</span>月</div>
+				<button id="calendarPre">前</button>
+				<button id="calendarNext">次</button>
+			</div>
+			<div id="calendar"></div>
+		</div>
+
 		<div>
 			<h2>日記を書く</h2>
+			<div id="date"></div>
 			<div>
 				<input id="title" type="text" value="日記" />
 			</div>
@@ -29,16 +40,6 @@
 				<input id="detail" type="text" placeholder="今日の日記" />
 			</div>
 			<button id="btnSendDiary">イベントを登録</button>
-		</div>
-
-		<div class="calendar">
-			<h2>カレンダー</h2>
-			<div class="monthSelect">
-				<button id="calendarPre">前</button>
-				<div><span id="year">year</span>/<span id="month">month</span></div>
-				<button id="calendarNext">次</button>
-			</div>
-			<div id="calendar"></div>
 		</div>
 
 		<div>

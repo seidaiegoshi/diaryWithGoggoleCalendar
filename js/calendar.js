@@ -32,7 +32,7 @@ function createCalendar(year, month) {
 
 	// 曜日の行を作成
 	for (let i = 0; i < weeks.length; i++) {
-		calendarHtml += "<td>" + weeks[i] + "</td>";
+		calendarHtml += "<td class='weeks' >" + weeks[i] + "</td>";
 	}
 
 	for (let w = 0; w < 6; w++) {
@@ -42,20 +42,20 @@ function createCalendar(year, month) {
 			if (w == 0 && d < startDay) {
 				// 1行目で1日の曜日の前
 				let num = lastMonthendDayCount - startDay + d + 1;
-				calendarHtml += '<td class="isDisabled">' + num + "</td>";
+				calendarHtml += '<td class="isDisabled calendarTd">' + num + "</td>";
 			} else if (dayCount > endDayCount) {
 				// 末尾の日数を超えた
 				let num = dayCount - endDayCount;
-				calendarHtml += '<td class="isDisabled">' + num + "</td>";
+				calendarHtml += '<td class="isDisabled calendarTd">' + num + "</td>";
 				dayCount++;
 			} else {
-				dayCount++;
 				if (year == date.getFullYear() && month == date.getMonth() + 1 && dayCount == date.getDate()) {
 					// 今日にマークをつける
-					calendarHtml += "<td class='isToday'>" + dayCount + "</td>";
+					calendarHtml += "<td class='isToday calendarTd'>" + dayCount + "</td>";
 				} else {
-					calendarHtml += "<td>" + dayCount + "</td>";
+					calendarHtml += "<td class='calendarTd'>" + dayCount + "</td>";
 				}
+				dayCount++;
 			}
 		}
 		calendarHtml += "</tr>";
@@ -70,7 +70,6 @@ function moveCalendar(e) {
 
 	if (e.target.id === "calendarPre") {
 		month--;
-
 		if (month < 1) {
 			year--;
 			month = 12;
@@ -79,7 +78,6 @@ function moveCalendar(e) {
 
 	if (e.target.id === "calendarNext") {
 		month++;
-
 		if (month > 12) {
 			year++;
 			month = 1;
@@ -89,7 +87,16 @@ function moveCalendar(e) {
 	showCalendar(year, month);
 }
 
+// 最初に実行
+showCalendar(year, month);
+
+// ボタンクリック時
 $("#calendarPre").on("click", moveCalendar);
 $("#calendarNext").on("click", moveCalendar);
 
-showCalendar(year, month);
+// カレンダーをクリックしたとき。
+$(document).on("click", (e) => {
+	if (e.target.classList.contains("calendarTd")) {
+		console.log("test");
+	}
+});

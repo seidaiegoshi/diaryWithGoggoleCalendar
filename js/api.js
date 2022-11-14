@@ -10,14 +10,6 @@ let CALENDAR_ID = "";
 
 let events;
 
-$("#btnKeySet").on("click", () => {
-	CLIENT_ID = $("#clientId").val();
-	API_KEY = $("#apiKey").val();
-	CALENDAR_ID = $("#calendarId").val();
-	gapiLoaded();
-	gisLoaded();
-});
-
 // Discovery doc URL for APIs used by the quickstart
 const DISCOVERY_DOC = "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest";
 
@@ -134,7 +126,6 @@ async function listUpcomingEvents() {
 	}
 
 	events = response.result.items;
-	console.log(events);
 	if (!events || events.length == 0) {
 		document.getElementById("content").innerText = "No events found.";
 		return;
@@ -153,22 +144,34 @@ async function listUpcomingEvents() {
 	$("#content").html(htmlElement);
 }
 
+$("#btnKeySet").on("click", () => {
+	CLIENT_ID = $("#clientId").val();
+	API_KEY = $("#apiKey").val();
+	CALENDAR_ID = $("#calendarId").val();
+	gapiLoaded();
+	gisLoaded();
+});
+
 $("#btnSendDiary").on("click", async () => {
 	// Refer to the JavaScript quickstart on how to setup the environment:
 	// https://developers.google.com/calendar/quickstart/js
 	// Change the scope to 'https://www.googleapis.com/auth/calendar' and delete any
 	// stored credentials.
 
-	const today = new Date();
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const day = date.getDate();
+	const allDay = year + "-" + month + "-" + day;
+	// console.log("allDay");
 	const event = {
 		summary: $("#title").val(),
 		description: $("#detail").val(),
-
 		start: {
-			dateTime: today,
+			date: allDay,
 		},
 		end: {
-			dateTime: today,
+			date: allDay,
 		},
 	};
 	// console.log(event);
@@ -180,17 +183,16 @@ $("#btnSendDiary").on("click", async () => {
 		})
 		.then(
 			(response) => {
-				console.log("Response", response);
+				// console.log("Response", response);
 			},
 			(err) => {
-				console.error("Execute error", err);
+				// console.error("Execute error", err);
 			}
 		);
 
 	//データ持ってくる。
 	listUpcomingEvents();
 
-	// request.execute(function (event) {
-	// 	appendPre("Event created: " + event.htmlLink);
-	// });
+	// カレンダーを更新する
+	showCalendar(year, month);
 });

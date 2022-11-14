@@ -4,17 +4,34 @@
 
 /* カレンダー */
 
-.calendar {
+/* .calendar {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-}
+} */
 
 .monthSelect {
 	display: flex;
-	justify-content: center;
+	/* justify-content: center; */
 	align-items: center;
+}
+
+#calendar table {
+	border-spacing: 10px;
+}
+
+#calendar td {
+	text-align: center;
+}
+
+.isToday {
+	background-color: cadetblue;
+	color: white;
+}
+
+.isDisabled {
+	color: gray;
 }
 
 /* 過去の日記を一覧でみる。 */
