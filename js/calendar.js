@@ -123,7 +123,7 @@ $(document).on("click", (e) => {
 		// カレンダー上でクリックした場合
 
 		// TODO 記入途中だったらきえるけどいい？の確認
-		eventId = "";
+		isEventId = "";
 		$("#title").val("日記");
 		$("#detail").val("");
 
@@ -146,7 +146,7 @@ $(document).on("click", (e) => {
 			) {
 				$("#title").val(event.summary);
 				$("#detail").val(event.description);
-				eventId = event.id;
+				isEventId = event.id;
 				//IDで既存のイベントを持ってきて、メモに反映する処理
 			}
 		});

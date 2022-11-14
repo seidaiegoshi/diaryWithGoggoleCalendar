@@ -9,7 +9,7 @@ let API_KEY = "";
 let CALENDAR_ID = "";
 
 let events;
-let eventId;
+let isEventId;
 let thisMonthEvents;
 
 // Discovery doc URL for APIs used by the quickstart
@@ -184,42 +184,61 @@ $("#btnKeySet").on("click", () => {
 	gisLoaded();
 });
 
+// イベント登録ボタン
 $("#btnSendDiary").on("click", async () => {
 	// Refer to the JavaScript quickstart on how to setup the environment:
 	// https://developers.google.com/calendar/quickstart/js
 	// Change the scope to 'https://www.googleapis.com/auth/calendar' and delete any
 	// stored credentials.
-	const date = $("#date").text().split(/\//);
-
-	const year = date[0];
-	const month = date[1];
-	const day = date[2];
-	const allDay = year + "-" + month + "-" + day;
+	const date = $("#date").text().replace(/\//g, "-");
 	const event = {
 		summary: $("#title").val(),
 		description: $("#detail").val(),
 		start: {
-			date: allDay,
+			date: date,
 		},
 		end: {
-			date: allDay,
+			date: date,
 		},
 	};
 
 	//カレンダーのイベントを登録する。
-	await gapi.client.calendar.events
-		.insert({
-			calendarId: CALENDAR_ID,
-			resource: event,
-		})
-		.then(
-			(response) => {
-				console.log("Response", response);
-			},
-			(err) => {
-				console.error("Execute error", err);
-			}
-		);
+	// すでにイベントがあったら
+	if (isEventId) {
+		await gapi.client.calendar.events
+			.update({
+				calendarId: CALENDAR_ID,
+				eventId: isEventId,
+				resource: event,
+			})
+			.then(
+				(response) => {
+					console.log("Response", response);
+					//カレンダー情報更新
+					getThisMonthEvents(getThisMonthDayFirst(year, month), getThisMonthDayEnd(year, month));
+				},
+				(err) => {
+					console.error("Execute error", err);
+				}
+			);
+	} else {
+		// イベントがなかったら
+		await gapi.client.calendar.events
+			.insert({
+				calendarId: CALENDAR_ID,
+				resource: event,
+			})
+			.then(
+				(response) => {
+					console.log("Response", response);
+					//カレンダー情報更新
+					getThisMonthEvents(getThisMonthDayFirst(year, month), getThisMonthDayEnd(year, month));
+				},
+				(err) => {
+					console.error("Execute error", err);
+				}
+			);
+	}
 
 	//データ持ってくる。
 	listUpcomingEvents();
