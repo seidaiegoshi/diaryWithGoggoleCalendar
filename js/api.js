@@ -115,7 +115,7 @@ async function listUpcomingEvents() {
 			calendarId: CALENDAR_ID,
 			// timeMin: new Date().toISOString(),
 			showDeleted: false,
-			singleEvents: true,
+			singleEvents: false,
 			// maxResults: 10,
 			orderBy: "updated",
 		};
@@ -126,6 +126,7 @@ async function listUpcomingEvents() {
 	}
 
 	events = response.result.items;
+	console.log(events);
 	if (!events || events.length == 0) {
 		document.getElementById("content").innerText = "No events found.";
 		return;
@@ -133,13 +134,13 @@ async function listUpcomingEvents() {
 	// Flatten to string to display
 	let htmlElement = "";
 	for (let i = events.length - 1; 0 < i; i--) {
-		htmlElement += events[i].summary;
-		htmlElement += "(" + (events[i].start.dateTime || events[i].start.date) + ")" + "<br>";
-		if (events[i].description) {
-			htmlElement += events[i].description;
-			htmlElement += "<br>";
+		if (events[i].summary) {
+			htmlElement += `
+      <div class="eventHeader"><span class="eventSummary">${events[i].summary}</span>
+      <span class="eventDateTime">${events[i].start.dateTime || events[i].start.date} </span></div>
+      <div class=eventDescription style="white-space: pre-wrap">${events[i].description}</div>
+		`;
 		}
-		htmlElement += "<br>";
 	}
 	$("#content").html(htmlElement);
 }
