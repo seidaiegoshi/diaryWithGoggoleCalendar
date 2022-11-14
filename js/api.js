@@ -9,6 +9,8 @@ let API_KEY = "";
 let CALENDAR_ID = "";
 
 let events;
+let eventId;
+let thisMonthEvents;
 
 // Discovery doc URL for APIs used by the quickstart
 const DISCOVERY_DOC = "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest";
@@ -77,6 +79,8 @@ function handleAuthClick() {
 		document.getElementById("signout_button").style.visibility = "visible";
 		document.getElementById("authorize_button").innerText = "Refresh";
 		await listUpcomingEvents();
+
+		getThisMonthEvents(getThisMonthDayFirst(year, month), getThisMonthDayEnd(year, month));
 	};
 
 	if (gapi.client.getToken() === null) {
@@ -143,6 +147,33 @@ async function listUpcomingEvents() {
 		}
 	}
 	$("#content").html(htmlElement);
+}
+
+//カレンダーで表示している月のイベントを取得する。
+// @dateFrom : string ex.) "2022/11/14"
+// @dateTo : string  ex.) "2022/11/14"
+async function getThisMonthEvents(dateFrom, dateTo) {
+	let response;
+	try {
+		const request = {
+			calendarId: CALENDAR_ID,
+			timeMin: new Date(dateFrom).toISOString(),
+			timeMax: new Date(dateTo).toISOString(),
+			showDeleted: false,
+			singleEvents: false,
+			orderBy: "updated",
+		};
+		console.log("request");
+		console.log(request);
+		response = await gapi.client.calendar.events.list(request);
+	} catch (err) {
+		console.log(err.message);
+		return;
+	}
+
+	thisMonthEvents = response.result.items;
+	console.log("thisMonthEvents");
+	console.log(thisMonthEvents);
 }
 
 $("#btnKeySet").on("click", () => {
