@@ -1,33 +1,46 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Google Calendar API Quickstart</title>
+		<title>Google Calendar 日記</title>
 		<meta charset="utf-8" />
 	</head>
 	<body>
-		<p>Google Calendar API Quickstart</p>
+		<div>
+			<h1>日記</h1>
+			<h2>ログイン</h2>
+			<input type="text" id="clientId" placeholder="CLIENT ID" />
+			<input type="text" id="apiKey" placeholder="API KEY" />
+			<input type="text" id="calendarId" placeholder="CALENDER ID" />
+			<button id="btnKeySet">set keys</button>
+			<!--Add buttons to initiate auth sequence and sign out-->
+			<button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
+			<button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
+		</div>
 
-		<input type="text" id="clientId" placeholder="CLIENT ID" />
-		<input type="text" id="apiKey" placeholder="API KEY" />
-		<input type="text" id="calendarId" placeholder="CALENDER ID" />
-		<button id="btnKeySet">set keys</button>
+		<div>
+			<h2>日記を書く</h2>
+			<div>
+				<input id="title" type="text" value="日記" />
+			</div>
+			<div>
+				<input id="detail" type="text" placeholder="今日の日記" />
+			</div>
+			<button id="btnSendDiary">イベントを登録</button>
+		</div>
 
-		<!--Add buttons to initiate auth sequence and sign out-->
-		<button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
-		<button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
+		<div>
+			<h2>過去の日記</h2>
+			<pre id="content" style="white-space: pre-wrap"></pre>
+		</div>
 
-		<pre id="content" style="white-space: pre-wrap"></pre>
-
-		<!-- やりたいこと -->
-		<!-- APIで情報取得 -->
 		<!-- カレンダーに書き込み -->
 		<!-- 日付を選択して書き込み -->
 		<!-- タグカレンダーを作って -->
 		<!-- タグカレンダーをgoogleに書き込めるようにする -->
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="./js/api.js"></script>
 		<script async defer src="https://apis.google.com/js/api.js"></script>
 		<script async defer src="https://accounts.google.com/gsi/client"></script>
+		<script src="./js/api.js"></script>
 	</body>
 </html>

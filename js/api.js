@@ -150,3 +150,42 @@ async function listUpcomingEvents() {
 	}
 	$("#content").html(htmlElement);
 }
+
+$("#btnSendDiary").on("click", () => {
+	// Refer to the JavaScript quickstart on how to setup the environment:
+	// https://developers.google.com/calendar/quickstart/js
+	// Change the scope to 'https://www.googleapis.com/auth/calendar' and delete any
+	// stored credentials.
+
+	const today = new Date();
+	const event = {
+		summary: $("#title").val(),
+		description: $("#detail").val(),
+
+		start: {
+			dateTime: today,
+		},
+		end: {
+			dateTime: today,
+		},
+	};
+	console.log(event);
+
+	gapi.client.calendar.events
+		.insert({
+			calendarId: CALENDAR_ID,
+			resource: event,
+		})
+		.then(
+			(response) => {
+				console.log("Response", response);
+			},
+			(err) => {
+				console.error("Execute error", err);
+			}
+		);
+
+	// request.execute(function (event) {
+	// 	appendPre("Event created: " + event.htmlLink);
+	// });
+});
