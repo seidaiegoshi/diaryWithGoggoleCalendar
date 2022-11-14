@@ -119,10 +119,10 @@ async function listUpcomingEvents() {
 	try {
 		const request = {
 			calendarId: CALENDAR_ID,
-			timeMin: new Date().toISOString(),
-			showDeleted: false,
+			// timeMin: new Date().toISOString(),
+			showDeleted: true,
 			singleEvents: true,
-			maxResults: 10,
+			// maxResults: 10,
 			orderBy: "startTime",
 		};
 		response = await gapi.client.calendar.events.list(request);
@@ -138,10 +138,15 @@ async function listUpcomingEvents() {
 		return;
 	}
 	// Flatten to string to display
-	const output = events.reduce(
-		(str, event) =>
-			`${str}${event.summary} (${event.start.dateTime || event.start.date})\n${event.description}`,
-		"Events:\n"
-	);
-	document.getElementById("content").innerText = output;
+	let htmlElement = "";
+	for (let i = events.length - 1; 0 < i; i--) {
+		htmlElement += events[i].summary;
+		htmlElement += "(" + (events[i].start.dateTime || events[i].start.date) + ")" + "<br>";
+		if (events[i].description) {
+			htmlElement += events[i].description;
+			htmlElement += "<br>";
+		}
+		htmlElement += "<br>";
+	}
+	$("#content").html(htmlElement);
 }
