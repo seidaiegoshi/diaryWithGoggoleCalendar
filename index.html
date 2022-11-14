@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" type="text/css" href="./css/style.css" />
 		<title>Google Calendar 日記</title>
-		<meta charset="utf-8" />
 	</head>
 	<body>
 		<div>
@@ -28,9 +31,20 @@
 			<button id="btnSendDiary">イベントを登録</button>
 		</div>
 
+		<div class="calendar">
+			<h2>カレンダー</h2>
+			<div class="monthSelect">
+				<button id="calendarPre">前</button>
+				<div><span id="year">year</span>/<span id="month">month</span></div>
+				<button id="calendarNext">次</button>
+			</div>
+			<div id="calendar"></div>
+		</div>
+
 		<div>
 			<h2>過去の日記</h2>
-			<pre id="content" style="white-space: pre-wrap"></pre>
+
+			<div id="content" style="white-space: pre-wrap"></div>
 		</div>
 
 		<!-- カレンダーに書き込み -->
@@ -39,6 +53,8 @@
 		<!-- タグカレンダーをgoogleに書き込めるようにする -->
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="./js/calendar.js"></script>
+
 		<script async defer src="https://apis.google.com/js/api.js"></script>
 		<script async defer src="https://accounts.google.com/gsi/client"></script>
 		<script src="./js/api.js"></script>

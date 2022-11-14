@@ -1,0 +1,20 @@
+/* ログイン */
+
+/* 日記を書く */
+
+/* カレンダー */
+
+.calendar {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.monthSelect {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* 過去の日記を一覧でみる。 */
