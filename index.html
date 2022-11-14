@@ -8,8 +8,8 @@
 		<title>Google Calendar 日記</title>
 	</head>
 	<body>
+		<h1>日記</h1>
 		<div>
-			<h1>日記</h1>
 			<h2>ログイン</h2>
 			<input type="text" id="clientId" placeholder="CLIENT ID" />
 			<input type="text" id="apiKey" placeholder="API KEY" />
@@ -20,26 +20,34 @@
 			<button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
 		</div>
 
-		<div class="calendar">
-			<h2>カレンダー</h2>
-			<div class="monthSelect">
-				<div><span id="year">year</span>年<span id="month">month</span>月</div>
-				<button id="calendarPre">前</button>
-				<button id="calendarNext">次</button>
+		<div class="quickArea">
+			<div class="calendar">
+				<h2>カレンダー</h2>
+				<div class="monthSelect">
+					<div><span id="year">year</span>年<span id="month">month</span>月</div>
+					<div>
+						<button id="calendarPre">前</button>
+						<button id="calendarNext">次</button>
+					</div>
+				</div>
+				<div id="calendar"></div>
 			</div>
-			<div id="calendar"></div>
-		</div>
 
-		<div>
-			<h2>日記を書く</h2>
-			<div id="date"></div>
-			<div>
-				<input id="title" type="text" value="日記" />
+			<div class="writte">
+				<h2>日記を書く</h2>
+				<div>
+					<p><span id="date"></span>の日記</p>
+				</div>
+				<div class="titleBox">
+					<span class="justLeft">タイトル</span>
+					<input id="title" type="text" value="日記" />
+				</div>
+				<div class="detailBox">
+					<span class="justLeft">内容</span>
+					<textarea id="detail" type="text" placeholder="今日の日記"></textarea>
+				</div>
+				<button id="btnSendDiary">イベントを登録</button>
 			</div>
-			<div>
-				<input id="detail" type="text" placeholder="今日の日記" />
-			</div>
-			<button id="btnSendDiary">イベントを登録</button>
 		</div>
 
 		<div>
@@ -47,11 +55,6 @@
 
 			<div id="content" style="white-space: pre-wrap"></div>
 		</div>
-
-		<!-- カレンダーに書き込み -->
-		<!-- 日付を選択して書き込み -->
-		<!-- タグカレンダーを作って -->
-		<!-- タグカレンダーをgoogleに書き込めるようにする -->
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="./js/calendar.js"></script>

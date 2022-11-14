@@ -157,13 +157,12 @@ $("#btnSendDiary").on("click", async () => {
 	// https://developers.google.com/calendar/quickstart/js
 	// Change the scope to 'https://www.googleapis.com/auth/calendar' and delete any
 	// stored credentials.
+	const date = $("#date").text().split(/\//);
 
-	const date = new Date();
-	const year = date.getFullYear();
-	const month = date.getMonth() + 1;
-	const day = date.getDate();
+	const year = date[0];
+	const month = date[1];
+	const day = date[2];
 	const allDay = year + "-" + month + "-" + day;
-	// console.log("allDay");
 	const event = {
 		summary: $("#title").val(),
 		description: $("#detail").val(),
@@ -174,8 +173,8 @@ $("#btnSendDiary").on("click", async () => {
 			date: allDay,
 		},
 	};
-	// console.log(event);
 
+	//カレンダーのイベントを登録する。
 	await gapi.client.calendar.events
 		.insert({
 			calendarId: CALENDAR_ID,
@@ -183,10 +182,10 @@ $("#btnSendDiary").on("click", async () => {
 		})
 		.then(
 			(response) => {
-				// console.log("Response", response);
+				console.log("Response", response);
 			},
 			(err) => {
-				// console.error("Execute error", err);
+				console.error("Execute error", err);
 			}
 		);
 

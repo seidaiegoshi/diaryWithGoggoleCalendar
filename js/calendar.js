@@ -42,18 +42,22 @@ function createCalendar(year, month) {
 			if (w == 0 && d < startDay) {
 				// 1行目で1日の曜日の前
 				let num = lastMonthendDayCount - startDay + d + 1;
-				calendarHtml += '<td class="isDisabled calendarTd">' + num + "</td>";
+				calendarHtml += `<td class="calendarTd isDisabled" data-date="${month == 1 ? year - 1 : year}/${
+					month == 1 ? 12 : month - 1
+				}/${num}">${num}</td>`;
 			} else if (dayCount > endDayCount) {
 				// 末尾の日数を超えた
 				let num = dayCount - endDayCount;
-				calendarHtml += '<td class="isDisabled calendarTd">' + num + "</td>";
+				calendarHtml += `<td class="calendarTd isDisabled" data-date="${month == 12 ? year + 1 : year}/${
+					month == 12 ? 1 : month + 1
+				}/${num}">${num}</td>`;
 				dayCount++;
 			} else {
 				if (year == date.getFullYear() && month == date.getMonth() + 1 && dayCount == date.getDate()) {
 					// 今日にマークをつける
-					calendarHtml += "<td class='isToday calendarTd'>" + dayCount + "</td>";
+					calendarHtml += `<td class="calendarTd isToday" data-date="${year}/${month}/${dayCount}">${dayCount}</td>`;
 				} else {
-					calendarHtml += "<td class='calendarTd'>" + dayCount + "</td>";
+					calendarHtml += `<td class="calendarTd" data-date="${year}/${month}/${dayCount}">${dayCount}</td>`;
 				}
 				dayCount++;
 			}
@@ -89,6 +93,7 @@ function moveCalendar(e) {
 
 // 最初に実行
 showCalendar(year, month);
+$("#date").text(`${year}/${month}/${date.getDate()}`);
 
 // ボタンクリック時
 $("#calendarPre").on("click", moveCalendar);
@@ -97,6 +102,8 @@ $("#calendarNext").on("click", moveCalendar);
 // カレンダーをクリックしたとき。
 $(document).on("click", (e) => {
 	if (e.target.classList.contains("calendarTd")) {
-		console.log("test");
+		console.log(e.target.dataset.date);
+		console.log(e.target);
+		$("#date").text(e.target.dataset.date);
 	}
 });
