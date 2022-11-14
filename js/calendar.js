@@ -109,21 +109,24 @@ showCalendar(year, month);
 $("#date").text(`${year}/${month}/${date.getDate()}`);
 
 // 前の月ボタンクリック時
-$("#calendarPre").on("click", () => {
-	moveCalendar();
+$("#calendarPre").on("click", (e) => {
+	moveCalendar(e);
 });
 // 次の月ボタン
-$("#calendarNext").on("click", () => {
-	moveCalendar();
+$("#calendarNext").on("click", (e) => {
+	moveCalendar(e);
 });
 
 // カレンダーをクリックしたとき。
 $(document).on("click", (e) => {
-	eventId = "";
-	// TODO 記入途中だったらきえるけどいい？の確認
-	$("#title").val();
-	$("#detail").val();
 	if (e.target.classList.contains("calendarTd")) {
+		// カレンダー上でクリックした場合
+
+		// TODO 記入途中だったらきえるけどいい？の確認
+		eventId = "";
+		$("#title").val("日記");
+		$("#detail").val("");
+
 		// console.log(e.target.dataset.date);
 		// console.log(e.target);
 		calendarDate = e.target.dataset.date;
