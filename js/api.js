@@ -8,6 +8,8 @@ let CLIENT_ID = "";
 let API_KEY = "";
 let CALENDAR_ID = "";
 
+let events;
+
 $("#btnKeySet").on("click", () => {
 	CLIENT_ID = $("#clientId").val();
 	API_KEY = $("#apiKey").val();
@@ -120,10 +122,10 @@ async function listUpcomingEvents() {
 		const request = {
 			calendarId: CALENDAR_ID,
 			// timeMin: new Date().toISOString(),
-			showDeleted: true,
+			showDeleted: false,
 			singleEvents: true,
 			// maxResults: 10,
-			orderBy: "startTime",
+			orderBy: "updated",
 		};
 		response = await gapi.client.calendar.events.list(request);
 	} catch (err) {
@@ -131,7 +133,7 @@ async function listUpcomingEvents() {
 		return;
 	}
 
-	const events = response.result.items;
+	events = response.result.items;
 	console.log(events);
 	if (!events || events.length == 0) {
 		document.getElementById("content").innerText = "No events found.";
@@ -151,7 +153,7 @@ async function listUpcomingEvents() {
 	$("#content").html(htmlElement);
 }
 
-$("#btnSendDiary").on("click", () => {
+$("#btnSendDiary").on("click", async () => {
 	// Refer to the JavaScript quickstart on how to setup the environment:
 	// https://developers.google.com/calendar/quickstart/js
 	// Change the scope to 'https://www.googleapis.com/auth/calendar' and delete any
@@ -169,9 +171,9 @@ $("#btnSendDiary").on("click", () => {
 			dateTime: today,
 		},
 	};
-	console.log(event);
+	// console.log(event);
 
-	gapi.client.calendar.events
+	await gapi.client.calendar.events
 		.insert({
 			calendarId: CALENDAR_ID,
 			resource: event,
@@ -184,6 +186,9 @@ $("#btnSendDiary").on("click", () => {
 				console.error("Execute error", err);
 			}
 		);
+
+	//データ持ってくる。
+	listUpcomingEvents();
 
 	// request.execute(function (event) {
 	// 	appendPre("Event created: " + event.htmlLink);
