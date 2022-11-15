@@ -1,4 +1,49 @@
+* {
+	color: #333;
+	font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+}
+
+input {
+	outline: 1px solid #999;
+}
+input:hover {
+	outline: 1px solid black;
+}
+textarea {
+	outline: 1px solid #999;
+}
+textarea:hover {
+	outline: 1px solid black;
+}
+button {
+	outline: 1px solid #555;
+	color: darkcyan;
+	border-radius: 5px;
+}
+button:hover {
+	outline: 1px solid darkcyan;
+	cursor: pointer;
+	background-color: deepskyblue;
+	color: white;
+}
+h1,
+h2 {
+	margin: 10px;
+	margin-bottom: 20px;
+}
+div {
+	margin: 5px;
+}
+
 /* ログイン */
+.keyArea {
+	margin: 0;
+	padding: 0;
+}
+
+.login button {
+	margin: 5px;
+}
 
 /* quickArea */
 .quickArea {
@@ -16,7 +61,13 @@
 	flex-direction: column;
 	margin: 10px;
 }
-
+.thisMonth {
+	font-weight: bold;
+	font-size: 1.3rem;
+}
+.weeks {
+	font-weight: bold;
+}
 .monthSelect {
 	width: 100%;
 	display: flex;
@@ -24,17 +75,25 @@
 	align-items: center;
 }
 
+.monthSelect button {
+	outline: none;
+	border-radius: 50%;
+}
+
 #calendar table {
-	border-spacing: 20px;
+	/* border-spacing: 10px; */
+	/* border-collapse: separate; */
 }
 
 #calendar td {
 	text-align: center;
+	padding: 15px;
 }
 
 .isToday {
 	background-color: cadetblue;
 	color: white;
+	border-radius: 10px;
 }
 
 .isDisabled {
@@ -66,6 +125,10 @@
 }
 .justLeft {
 	width: 6em;
+	height: 100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
 }
 
 #title {
@@ -74,10 +137,30 @@
 #detail {
 	width: 100%;
 	height: 6em;
+	background-color: cornsilk;
+}
+.detailArea {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
 
 #btnSendDiary {
-	margin: 5px;
+	margin: 10px;
 }
 
 /* 過去の日記を一覧でみる。 */
+.eventHeader {
+	font-size: 0.6rem;
+}
+.eventDateTime {
+	color: #ccc;
+}
+.eventDescription {
+	border-bottom: 1px solid #eee;
+	margin-bottom: 5px;
+}

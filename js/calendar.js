@@ -5,7 +5,6 @@ let month = date.getMonth() + 1;
 
 function showCalendar(year, month) {
 	const calendarHtml = createCalendar(year, month);
-	const sec = document.createElement("section");
 	$("#calendar").html(calendarHtml);
 
 	month++;
@@ -69,7 +68,17 @@ function createCalendar(year, month) {
 	return calendarHtml;
 }
 
+function getThisMonthDayEnd(yy, mm) {
+	const endDate = new Date(yy, mm, 0); // 月の最後の日を取得
+	const endDayCount = endDate.getDate(); // 月の末日
+	return yy + "/" + mm + "/" + endDayCount;
+}
+function getThisMonthDayFirst(yy, mm) {
+	return yy + "/" + mm + "/1";
+}
+
 function moveCalendar(e) {
+	//カレンダー消す
 	document.querySelector("#calendar").innerHTML = "";
 
 	if (e.target.id === "calendarPre") {
@@ -88,6 +97,10 @@ function moveCalendar(e) {
 		}
 	}
 
+	//表示した月のデータとってくる。
+	getThisMonthEvents(getThisMonthDayFirst(year, month), getThisMonthDayEnd(year, month));
+
+	//カレンダー作る
 	showCalendar(year, month);
 }
 
@@ -95,15 +108,47 @@ function moveCalendar(e) {
 showCalendar(year, month);
 $("#date").text(`${year}/${month}/${date.getDate()}`);
 
-// ボタンクリック時
-$("#calendarPre").on("click", moveCalendar);
-$("#calendarNext").on("click", moveCalendar);
+// 前の月ボタンクリック時
+$("#calendarPre").on("click", (e) => {
+	moveCalendar(e);
+});
+// 次の月ボタン
+$("#calendarNext").on("click", (e) => {
+	moveCalendar(e);
+});
 
 // カレンダーをクリックしたとき。
 $(document).on("click", (e) => {
 	if (e.target.classList.contains("calendarTd")) {
-		console.log(e.target.dataset.date);
-		console.log(e.target);
+		// カレンダー上でクリックした場合
+
+		// TODO 記入途中だったらきえるけどいい？の確認
+		isEventId = "";
+		$("#title").val("日記");
+		$("#detail").val("");
+
+		// console.log(e.target.dataset.date);
+		// console.log(e.target);
+		calendarDate = e.target.dataset.date;
 		$("#date").text(e.target.dataset.date);
+
+		calendarDate = calendarDate.replace(/\//g, "-");
+		// console.log(thisMonthEvents);
+		// console.log(thisMonthEvents[0].start.date);
+		// console.log(thisMonthEvents[0].start.date?.split(/T/)[0]);
+		// console.log(thisMonthEvents[0].start.dateTime?.split(/T/)[0]);
+		// console.log(calendarDate);
+
+		thisMonthEvents.forEach((event, i) => {
+			if (
+				event.start.date?.split(/T/)[0] == calendarDate ||
+				event.start.dateTime?.split(/T/)[0] == calendarDate
+			) {
+				$("#title").val(event.summary);
+				$("#detail").val(event.description);
+				isEventId = event.id;
+				//IDで既存のイベントを持ってきて、メモに反映する処理
+			}
+		});
 	}
 });

@@ -9,6 +9,8 @@ let API_KEY = "";
 let CALENDAR_ID = "";
 
 let events;
+let isEventId;
+let thisMonthEvents;
 
 // Discovery doc URL for APIs used by the quickstart
 const DISCOVERY_DOC = "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest";
@@ -77,6 +79,8 @@ function handleAuthClick() {
 		document.getElementById("signout_button").style.visibility = "visible";
 		document.getElementById("authorize_button").innerText = "Refresh";
 		await listUpcomingEvents();
+
+		getThisMonthEvents(getThisMonthDayFirst(year, month), getThisMonthDayEnd(year, month));
 	};
 
 	if (gapi.client.getToken() === null) {
@@ -115,7 +119,7 @@ async function listUpcomingEvents() {
 			calendarId: CALENDAR_ID,
 			// timeMin: new Date().toISOString(),
 			showDeleted: false,
-			singleEvents: true,
+			singleEvents: false,
 			// maxResults: 10,
 			orderBy: "updated",
 		};
@@ -126,6 +130,7 @@ async function listUpcomingEvents() {
 	}
 
 	events = response.result.items;
+	console.log(events);
 	if (!events || events.length == 0) {
 		document.getElementById("content").innerText = "No events found.";
 		return;
@@ -133,15 +138,42 @@ async function listUpcomingEvents() {
 	// Flatten to string to display
 	let htmlElement = "";
 	for (let i = events.length - 1; 0 < i; i--) {
-		htmlElement += events[i].summary;
-		htmlElement += "(" + (events[i].start.dateTime || events[i].start.date) + ")" + "<br>";
-		if (events[i].description) {
-			htmlElement += events[i].description;
-			htmlElement += "<br>";
+		if (events[i].summary && (events[i].start.dateTime || events[i].start.date) && events[i].description) {
+			htmlElement += `
+      <div class="eventHeader"><span class="eventSummary">${events[i].summary}</span>
+      <span class="eventDateTime">${events[i].start.dateTime || events[i].start.date} </span></div>
+      <div class=eventDescription style="white-space: pre-wrap">${events[i].description}</div>
+		`;
 		}
-		htmlElement += "<br>";
 	}
 	$("#content").html(htmlElement);
+}
+
+//カレンダーで表示している月のイベントを取得する。
+// @dateFrom : string ex.) "2022/11/14"
+// @dateTo : string  ex.) "2022/11/14"
+async function getThisMonthEvents(dateFrom, dateTo) {
+	let response;
+	try {
+		const request = {
+			calendarId: CALENDAR_ID,
+			timeMin: new Date(dateFrom).toISOString(),
+			timeMax: new Date(dateTo).toISOString(),
+			showDeleted: false,
+			singleEvents: false,
+			orderBy: "updated",
+		};
+		console.log("request");
+		console.log(request);
+		response = await gapi.client.calendar.events.list(request);
+	} catch (err) {
+		console.log(err.message);
+		return;
+	}
+
+	thisMonthEvents = response.result.items;
+	console.log("thisMonthEvents");
+	console.log(thisMonthEvents);
 }
 
 $("#btnKeySet").on("click", () => {
@@ -152,42 +184,61 @@ $("#btnKeySet").on("click", () => {
 	gisLoaded();
 });
 
+// イベント登録ボタン
 $("#btnSendDiary").on("click", async () => {
 	// Refer to the JavaScript quickstart on how to setup the environment:
 	// https://developers.google.com/calendar/quickstart/js
 	// Change the scope to 'https://www.googleapis.com/auth/calendar' and delete any
 	// stored credentials.
-	const date = $("#date").text().split(/\//);
-
-	const year = date[0];
-	const month = date[1];
-	const day = date[2];
-	const allDay = year + "-" + month + "-" + day;
+	const date = $("#date").text().replace(/\//g, "-");
 	const event = {
 		summary: $("#title").val(),
 		description: $("#detail").val(),
 		start: {
-			date: allDay,
+			date: date,
 		},
 		end: {
-			date: allDay,
+			date: date,
 		},
 	};
 
 	//カレンダーのイベントを登録する。
-	await gapi.client.calendar.events
-		.insert({
-			calendarId: CALENDAR_ID,
-			resource: event,
-		})
-		.then(
-			(response) => {
-				console.log("Response", response);
-			},
-			(err) => {
-				console.error("Execute error", err);
-			}
-		);
+	// すでにイベントがあったら
+	if (isEventId) {
+		await gapi.client.calendar.events
+			.update({
+				calendarId: CALENDAR_ID,
+				eventId: isEventId,
+				resource: event,
+			})
+			.then(
+				(response) => {
+					console.log("Response", response);
+					//カレンダー情報更新
+					getThisMonthEvents(getThisMonthDayFirst(year, month), getThisMonthDayEnd(year, month));
+				},
+				(err) => {
+					console.error("Execute error", err);
+				}
+			);
+	} else {
+		// イベントがなかったら
+		await gapi.client.calendar.events
+			.insert({
+				calendarId: CALENDAR_ID,
+				resource: event,
+			})
+			.then(
+				(response) => {
+					console.log("Response", response);
+					//カレンダー情報更新
+					getThisMonthEvents(getThisMonthDayFirst(year, month), getThisMonthDayEnd(year, month));
+				},
+				(err) => {
+					console.error("Execute error", err);
+				}
+			);
+	}
 
 	//データ持ってくる。
 	listUpcomingEvents();
