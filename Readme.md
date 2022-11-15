@@ -26,6 +26,9 @@ https://seidaiegoshi.github.io/kadai_api/
 
 ## 参考
 
+- GCI
+  https://console.cloud.google.com/welcome
+
 - API
   https://developers.google.com/calendar/api
 
