@@ -1,5 +1,7 @@
 # google カレンダーと連携して日記を書きたい
 
+https://seidaiegoshi.github.io/kadai_api/
+
 ## 使い方
 
 - GAPI で API キーと認証コードを取得
