@@ -4,17 +4,21 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/sanitize.css" />
 		<link rel="stylesheet" type="text/css" href="./css/style.css" />
 		<title>Google Calendar 日記</title>
 	</head>
 	<body>
-		<h1>日記</h1>
-		<div>
+		<h1>googleカレンダーで日記書く</h1>
+		<div class="login">
 			<h2>ログイン</h2>
-			<input type="text" id="clientId" placeholder="CLIENT ID" />
-			<input type="text" id="apiKey" placeholder="API KEY" />
-			<input type="text" id="calendarId" placeholder="CALENDER ID" />
-			<button id="btnKeySet">set keys</button>
+			<div class="keyArea">
+				<input type="text" id="clientId" placeholder="CLIENT ID" />
+				<input type="text" id="apiKey" placeholder="API KEY" />
+				<input type="text" id="calendarId" placeholder="CALENDER ID" />
+				<button id="btnKeySet">set keys</button>
+			</div>
 			<!--Add buttons to initiate auth sequence and sign out-->
 			<button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
 			<button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
@@ -24,7 +28,7 @@
 			<div class="calendar">
 				<h2>カレンダー</h2>
 				<div class="monthSelect">
-					<div><span id="year">year</span>年<span id="month">month</span>月</div>
+					<div class="thisMonth"><span id="year">year</span>年<span id="month">month</span>月</div>
 					<div>
 						<button id="calendarPre">前</button>
 						<button id="calendarNext">次</button>
@@ -38,15 +42,18 @@
 				<div>
 					<p><span id="date"></span>の日記</p>
 				</div>
+
 				<div class="titleBox">
 					<span class="justLeft">タイトル</span>
 					<input id="title" type="text" value="日記" />
 				</div>
 				<div class="detailBox">
 					<span class="justLeft">内容</span>
-					<textarea id="detail" type="text" placeholder="ここに書く"></textarea>
+					<div class="detailArea">
+						<textarea id="detail" type="text" placeholder="ここに書く"></textarea>
+						<button id="btnSendDiary">日記を書く</button>
+					</div>
 				</div>
-				<button id="btnSendDiary">イベントを登録</button>
 			</div>
 		</div>
 

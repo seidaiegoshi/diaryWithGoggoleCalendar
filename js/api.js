@@ -138,7 +138,7 @@ async function listUpcomingEvents() {
 	// Flatten to string to display
 	let htmlElement = "";
 	for (let i = events.length - 1; 0 < i; i--) {
-		if (events[i].summary) {
+		if (events[i].summary && (events[i].start.dateTime || events[i].start.date) && events[i].description) {
 			htmlElement += `
       <div class="eventHeader"><span class="eventSummary">${events[i].summary}</span>
       <span class="eventDateTime">${events[i].start.dateTime || events[i].start.date} </span></div>
