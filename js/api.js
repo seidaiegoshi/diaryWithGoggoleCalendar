@@ -150,12 +150,14 @@ async function listUpcomingEvents() {
 		}
 	}
 	$("#content").html(htmlElement);
+
+	addClassToCalenderTd(events);
 }
 
 //カレンダーで表示している月のイベントを取得する。
-// @dateFrom : string ex.) "2022/11/14"
-// @dateTo : string  ex.) "2022/11/14"
 async function getThisMonthEvents(dateFrom, dateTo) {
+	// dateFrom : string ex.) "2022/11/14"
+	// dateTo : string  ex.) "2022/11/14"
 	let response;
 	try {
 		const request = {
@@ -166,17 +168,17 @@ async function getThisMonthEvents(dateFrom, dateTo) {
 			singleEvents: false,
 			orderBy: "updated",
 		};
-		console.log("request");
-		console.log(request);
+		// console.log("request");
+		// console.log(request);
 		response = await gapi.client.calendar.events.list(request);
 	} catch (err) {
-		console.log(err.message);
+		// console.log(err.message);
 		return;
 	}
 
 	thisMonthEvents = response.result.items;
-	console.log("thisMonthEvents");
-	console.log(thisMonthEvents);
+	// console.log("thisMonthEvents");
+	// console.log(thisMonthEvents);
 }
 
 $("#btnKeySet").on("click", () => {

@@ -152,3 +152,17 @@ $(document).on("click", (e) => {
 		});
 	}
 });
+
+const addClassToCalenderTd = (events) => {
+	// カレンダーにイベントがあるなら、classを追加
+	events.forEach((ev) => {
+		const date = ev.start?.dateTime?.split("T")[0].split("-") || ev.start?.date?.split("-");
+		if (date) {
+			const td = $(`[data-date="${date[0]}/${date[1]}/${date[2]}"]`)[0];
+			if (td) {
+				td.className += " haveEvent";
+				console.log(td);
+			}
+		}
+	});
+};
