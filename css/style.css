@@ -88,6 +88,7 @@ div {
 #calendar td {
 	text-align: center;
 	padding: 15px;
+	position: relative;
 }
 
 .isToday {
@@ -98,6 +99,20 @@ div {
 
 .isDisabled {
 	color: gray;
+}
+
+.haveEvent {
+	/* color: darkred; */
+}
+.haveEvent:after {
+	content: "";
+	background-color: red;
+	position: absolute;
+	width: 8px;
+	height: 8px;
+	bottom: 6px;
+	left: 20px;
+	border-radius: 50%;
 }
 
 /* 日記を書く */
