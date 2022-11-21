@@ -137,6 +137,9 @@ async function listUpcomingEvents() {
 	}
 	// Flatten to string to display
 	let htmlElement = "";
+	events = events.sort((a, b) => {
+		return (a.start?.dateTime || a.start?.date) < (b.start?.dateTime || b.start?.date) ? -1 : 1;
+	});
 	for (let i = events.length - 1; 0 < i; i--) {
 		if (events[i].summary && (events[i].start.dateTime || events[i].start.date) && events[i].description) {
 			htmlElement += `
