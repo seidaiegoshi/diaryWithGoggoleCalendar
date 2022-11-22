@@ -2,6 +2,7 @@ const weeks = ["日", "月", "火", "水", "木", "金", "土"];
 const date = new Date();
 let year = date.getFullYear();
 let month = date.getMonth() + 1;
+let selectedDate = "";
 
 function showCalendar(year, month) {
 	const calendarHtml = createCalendar(year, month);
@@ -129,16 +130,18 @@ $(document).on("click", (e) => {
 
 		// console.log(e.target.dataset.date);
 		// console.log(e.target);
-		calendarDate = e.target.dataset.date;
+		//前の日付にある選択状態を消す
+		console.log(selectedDate);
+		$(`[data-date="${selectedDate}"]`).removeClass("selected");
+		//今回クリックした場所を保存する。
+		selectedDate = e.target.dataset.date;
+		console.log(selectedDate);
 		$("#date").text(e.target.dataset.date);
+		$(`[data-date="${selectedDate}"]`).addClass("selected");
 
-		calendarDate = calendarDate.replace(/\//g, "-");
-		// console.log(thisMonthEvents);
-		// console.log(thisMonthEvents[0].start.date);
-		// console.log(thisMonthEvents[0].start.date?.split(/T/)[0]);
-		// console.log(thisMonthEvents[0].start.dateTime?.split(/T/)[0]);
-		// console.log(calendarDate);
+		const calendarDate = selectedDate.replace(/\//g, "-");
 
+		//クリックしたところにイベントがあったら
 		thisMonthEvents.forEach((event, i) => {
 			if (
 				event.start.date?.split(/T/)[0] == calendarDate ||
