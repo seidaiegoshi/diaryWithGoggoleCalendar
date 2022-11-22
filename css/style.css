@@ -104,7 +104,7 @@ div {
 .haveEvent {
 	/* color: darkred; */
 }
-.haveEvent:after {
+.haveEvent::before {
 	content: "";
 	background-color: red;
 	position: absolute;
@@ -129,6 +129,7 @@ td.selected:after {
 	left: 0px;
 	outline: 3px dotted rgb(0, 47, 158);
 	border-radius: 5%;
+	z-index: 10;
 }
 /* 日記を書く */
 
