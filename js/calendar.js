@@ -102,6 +102,7 @@ async function moveCalendar(e) {
 
 	//表示した月のデータとってくる。
 	await getThisMonthEvents(await getThisMonthDayFirst(year, month), await getThisMonthDayEnd(year, month));
+	showDiaryHistory(thisMonthEvents);
 
 	addClassToCalenderTd(thisMonthEvents);
 	console.log(thisMonthEvents);

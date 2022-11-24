@@ -78,9 +78,10 @@ function handleAuthClick() {
 		}
 		document.getElementById("signout_button").style.visibility = "visible";
 		document.getElementById("authorize_button").innerText = "Refresh";
-		await listUpcomingEvents();
+		// await listUpcomingEvents();
 
-		getThisMonthEvents(getThisMonthDayFirst(year, month), getThisMonthDayEnd(year, month));
+		await getThisMonthEvents(getThisMonthDayFirst(year, month), getThisMonthDayEnd(year, month));
+		showDiaryHistory(thisMonthEvents);
 	};
 
 	if (gapi.client.getToken() === null) {
@@ -105,6 +106,27 @@ function handleSignoutClick() {
 		document.getElementById("authorize_button").innerText = "Authorize";
 		document.getElementById("signout_button").style.visibility = "hidden";
 	}
+}
+
+function showDiaryHistory(events) {
+	// Flatten to string to display
+	let htmlElement = "";
+	events = events.sort((a, b) => {
+		return (a.start?.dateTime || a.start?.date) > (b.start?.dateTime || b.start?.date) ? -1 : 1;
+	});
+
+	events.forEach((element) => {
+		if (element.summary && (element.start.dateTime || element.start.date) && element.description) {
+			htmlElement += `
+      <div class="eventHeader"><span class="eventSummary">${element.summary}</span>
+      <span class="eventDateTime">${element.start.dateTime || element.start.date} </span></div>
+      <div class=eventDescription style="white-space: pre-wrap">${element.description}</div>
+		`;
+		}
+	});
+	$("#content").html(htmlElement);
+
+	addClassToCalenderTd(events);
 }
 
 /**
@@ -253,7 +275,8 @@ $("#btnSendDiary").on("click", async () => {
 	}
 
 	//データ持ってくる。
-	listUpcomingEvents();
+	// listUpcomingEvents();
+	await getThisMonthEvents(getThisMonthDayFirst(year, month), getThisMonthDayEnd(year, month));
 
 	// カレンダーを更新する
 	showCalendar(year, month);
