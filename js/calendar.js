@@ -78,7 +78,7 @@ function getThisMonthDayFirst(yy, mm) {
 	return yy + "/" + mm + "/1";
 }
 
-function moveCalendar(e) {
+async function moveCalendar(e) {
 	//カレンダー消す
 	document.querySelector("#calendar").innerHTML = "";
 
@@ -97,12 +97,14 @@ function moveCalendar(e) {
 			month = 1;
 		}
 	}
-
-	//表示した月のデータとってくる。
-	getThisMonthEvents(getThisMonthDayFirst(year, month), getThisMonthDayEnd(year, month));
-
 	//カレンダー作る
 	showCalendar(year, month);
+
+	//表示した月のデータとってくる。
+	await getThisMonthEvents(await getThisMonthDayFirst(year, month), await getThisMonthDayEnd(year, month));
+
+	addClassToCalenderTd(thisMonthEvents);
+	console.log(thisMonthEvents);
 }
 
 // 最初に実行
@@ -161,10 +163,10 @@ const addClassToCalenderTd = (events) => {
 	events.forEach((ev) => {
 		const date = ev.start?.dateTime?.split("T")[0].split("-") || ev.start?.date?.split("-");
 		if (date) {
-			const td = $(`[data-date="${date[0]}/${date[1]}/${date[2]}"]`)[0];
+			const td = $(`[data-date="${date[0]}/${Number(date[1])}/${Number(date[2])}"]`)[0];
+
 			if (td) {
 				td.className += " haveEvent";
-				console.log(td);
 			}
 		}
 	});
