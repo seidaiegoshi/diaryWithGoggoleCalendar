@@ -133,21 +133,27 @@ $(document).on("click", (e) => {
 		// console.log(e.target.dataset.date);
 		// console.log(e.target);
 		//前の日付にある選択状態を消す
-		console.log(selectedDate);
+		// console.log(selectedDate);
 		$(`[data-date="${selectedDate}"]`).removeClass("selected");
 		//今回クリックした場所を保存する。
 		selectedDate = e.target.dataset.date;
-		console.log(selectedDate);
+		// console.log(selectedDate);
 		$("#date").text(e.target.dataset.date);
 		$(`[data-date="${selectedDate}"]`).addClass("selected");
 
-		const calendarDate = selectedDate.replace(/\//g, "-");
+		// let calendarDate = selectedDate.replace(/\//g, "-");
+		let calendarDate = selectedDate.split("/");
+		calendarDate[1] = zeroPadding(calendarDate[1]);
+		calendarDate[2] = zeroPadding(calendarDate[2]);
+		calendarDate = calendarDate.join("-");
 
 		//クリックしたところにイベントがあったら
 		thisMonthEvents.forEach((event, i) => {
+			if (i == 1) {
+			}
 			if (
-				event.start.date?.split(/T/)[0] == calendarDate ||
-				event.start.dateTime?.split(/T/)[0] == calendarDate
+				event.start?.date?.split(/T/)[0] == calendarDate ||
+				event.start?.dateTime?.split(/T/)[0] == calendarDate
 			) {
 				$("#title").val(event.summary);
 				$("#detail").val(event.description);

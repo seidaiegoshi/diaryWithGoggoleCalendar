@@ -181,6 +181,13 @@ async function getThisMonthEvents(dateFrom, dateTo) {
 	// console.log(thisMonthEvents);
 }
 
+function zeroPadding(str) {
+	if (str.length == 1) {
+		str = "0" + str;
+	}
+	return str;
+}
+
 $("#btnKeySet").on("click", () => {
 	CLIENT_ID = $("#clientId").val();
 	API_KEY = $("#apiKey").val();
