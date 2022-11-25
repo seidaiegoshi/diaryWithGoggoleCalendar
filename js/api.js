@@ -274,10 +274,6 @@ $("#btnSendDiary").on("click", async () => {
 			);
 	}
 
-	//データ持ってくる。
-	// listUpcomingEvents();
-	await getThisMonthEvents(getThisMonthDayFirst(year, month), getThisMonthDayEnd(year, month));
-
 	// カレンダーを更新する
 	showCalendar(year, month);
 });
