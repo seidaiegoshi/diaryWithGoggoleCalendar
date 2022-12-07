@@ -277,6 +277,7 @@ $("#btnSendDiary").on("click", async () => {
 	// カレンダーを更新する
 	showCalendar(year, month); //カレンダー作成
 	await getThisMonthEvents(await getThisMonthDayFirst(year, month), await getThisMonthDayEnd(year, month)); //月のカレンダーイベント取得
+	showDiaryHistory(thisMonthEvents);
 	addClassToCalenderTd(thisMonthEvents); //イベントが有る日付にイベントクラスを追加
 	$(`[data-date="${selectedDate}"]`).addClass("selected"); //選択さした日付をマーク
 });
