@@ -1,8 +1,13 @@
 const weeks = ["日", "月", "火", "水", "木", "金", "土"];
-const date = new Date();
+let date = new Date();
 let year = date.getFullYear();
 let month = date.getMonth() + 1;
+
 let selectedDate = "";
+
+const getToday = () => {
+	return new Date();
+};
 
 function showCalendar(year, month) {
 	const calendarHtml = createCalendar(year, month);
@@ -16,6 +21,7 @@ function showCalendar(year, month) {
 }
 
 function createCalendar(year, month) {
+	date = getToday();
 	const startDate = new Date(year, month - 1, 1); // 月の最初の日を取得
 	const endDate = new Date(year, month, 0); // 月の最後の日を取得
 	const endDayCount = endDate.getDate(); // 月の末日
